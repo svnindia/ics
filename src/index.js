@@ -8,20 +8,18 @@ import {
 
 export function generateEvent (attributes, cb) {
   const { error, value } = validateEvent(buildEvent(attributes))
-  if (!cb) {
-    // No callback, so return error or value in an object
-    if (error) return { error, value }
-    let event = ''
-    try {
-      event = formatEvent(value)
-    } catch(error) {
-      return { error, value: null }
-    }
-    return { error: null, value: event }
-  }
-  // Return a node-style callback
+  if (error && !cb) return { error, value }
   if (error) return cb(error)
-  return cb(null, formatEvent(value))
+  let event = ''
+  try {
+    event = formatEvent(value)
+  } catch(error) {
+    if(!cb) return { error, value: null }
+    if(cb) return cb(error)
+  }
+  if (!cb) return { error: null, value: event }
+  // Return a node-style callback
+  return cb(null, event)
 }
 export function createEvent (data,productId, cb) {
   let formatedEvents = ""

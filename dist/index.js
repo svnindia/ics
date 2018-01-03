@@ -19,20 +19,18 @@ function generateEvent(attributes, cb) {
       error = _validateEvent.error,
       value = _validateEvent.value;
 
-  if (!cb) {
-    // No callback, so return error or value in an object
-    if (error) return { error: error, value: value };
-    var event = '';
-    try {
-      event = (0, _pipeline.formatEvent)(value);
-    } catch (error) {
-      return { error: error, value: null };
-    }
-    return { error: null, value: event };
-  }
-  // Return a node-style callback
+  if (error && !cb) return { error: error, value: value };
   if (error) return cb(error);
-  return cb(null, (0, _pipeline.formatEvent)(value));
+  var event = '';
+  try {
+    event = (0, _pipeline.formatEvent)(value);
+  } catch (error) {
+    if (!cb) return { error: error, value: null };
+    if (cb) return cb(error);
+  }
+  if (!cb) return { error: null, value: event
+    // Return a node-style callback
+  };return cb(null, event);
 }
 function createEvent(data, productId, cb) {
   var formatedEvents = "";
