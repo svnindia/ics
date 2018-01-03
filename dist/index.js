@@ -15,6 +15,8 @@ var _pipeline = require('./pipeline');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function generateEvent(attributes, cb) {
+  var err = null;
+
   var _validateEvent = (0, _pipeline.validateEvent)((0, _pipeline.buildEvent)(attributes)),
       error = _validateEvent.error,
       value = _validateEvent.value;
@@ -25,12 +27,11 @@ function generateEvent(attributes, cb) {
   try {
     event = (0, _pipeline.formatEvent)(value);
   } catch (error) {
-    if (!cb) return { error: error, value: null };
-    if (cb) return cb(error);
+    err = error;
   }
-  if (!cb) return { error: null, value: event
+  if (!cb) return { error: err, value: event
     // Return a node-style callback
-  };return cb(null, event);
+  };return cb(err, event);
 }
 function createEvent(data, productId, cb) {
   var formatedEvents = "";

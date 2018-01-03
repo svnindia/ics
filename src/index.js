@@ -7,6 +7,7 @@ import {
 } from './pipeline'
 
 export function generateEvent (attributes, cb) {
+  let err = null
   const { error, value } = validateEvent(buildEvent(attributes))
   if (error && !cb) return { error, value }
   if (error) return cb(error)
@@ -14,12 +15,11 @@ export function generateEvent (attributes, cb) {
   try {
     event = formatEvent(value)
   } catch(error) {
-    if(!cb) return { error, value: null }
-    if(cb) return cb(error)
+    err = error
   }
-  if (!cb) return { error: null, value: event }
+  if (!cb) return { error: err, value: event }
   // Return a node-style callback
-  return cb(null, event)
+  return cb(err, event)
 }
 export function createEvent (data,productId, cb) {
   let formatedEvents = ""
