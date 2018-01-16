@@ -16,14 +16,13 @@ var _lodash2 = _interopRequireDefault(_lodash);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function setDuration(_ref) {
-  var before = _ref.before,
-      weeks = _ref.weeks,
+  var weeks = _ref.weeks,
       days = _ref.days,
       hours = _ref.hours,
       minutes = _ref.minutes,
       seconds = _ref.seconds;
 
-  var formattedString = before ? '-P' : 'P';
+  var formattedString = 'P';
   formattedString += weeks ? weeks + 'W' : '';
   formattedString += days ? days + 'D' : '';
   formattedString += 'T';
@@ -38,7 +37,8 @@ function setTrigger(trigger) {
   if (_lodash2.default.isArray(trigger)) {
     formattedString = 'TRIGGER;VALUE=DATE-TIME:' + (0, _setDate2.default)(trigger) + '\r\n';
   } else {
-    formattedString = 'TRIGGER:' + setDuration(trigger) + '\r\n';
+    var alert = trigger.before ? '-' : '';
+    formattedString = 'TRIGGER:' + (alert + setDuration(trigger)) + '\r\n';
   }
 
   return formattedString;

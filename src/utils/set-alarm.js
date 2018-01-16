@@ -1,8 +1,8 @@
 import setDate from './set-date'
 import _ from 'lodash'
 
-function setDuration ({before,weeks,days,hours,minutes,seconds}) {
-  let formattedString = before ? '-P' : 'P'
+function setDuration ({weeks,days,hours,minutes,seconds}) {
+  let formattedString = 'P'
   formattedString += weeks ? `${weeks}W` : ''
   formattedString += days ? `${days}D` : ''
   formattedString += 'T'
@@ -17,7 +17,8 @@ function setTrigger (trigger) {
   if(_.isArray(trigger)){
     formattedString = `TRIGGER;VALUE=DATE-TIME:${setDate(trigger)}\r\n`
   }else{
-    formattedString = `TRIGGER:${setDuration(trigger)}\r\n`
+    let alert = trigger.before ? '-' : ''
+    formattedString = `TRIGGER:${alert+setDuration(trigger)}\r\n`
   }
 
   return formattedString
