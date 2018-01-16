@@ -9,22 +9,38 @@ var _setDate = require('./set-date');
 
 var _setDate2 = _interopRequireDefault(_setDate);
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function setDuration(_ref) {
-  var weeks = _ref.weeks,
+  var before = _ref.before,
+      weeks = _ref.weeks,
       days = _ref.days,
       hours = _ref.hours,
       minutes = _ref.minutes,
       seconds = _ref.seconds;
 
   var formattedString = 'P';
+  if (before) formattedString = '-P';
   formattedString += weeks ? weeks + 'W' : '';
   formattedString += days ? days + 'D' : '';
   formattedString += 'T';
   formattedString += hours ? hours + 'H' : '';
   formattedString += minutes ? minutes + 'M' : '';
   formattedString += seconds ? seconds + 'S' : '';
+
+  return formattedString;
+}
+function setTrigger(trigger) {
+  var formattedString = '';
+  if (_lodash2.default.isArray(trigger)) {
+    formattedString = 'TRIGGER;VALUE=DATE-TIME:' + (0, _setDate2.default)(trigger) + '\r\n';
+  } else {
+    formattedString = 'TRIGGER:' + setDuration(trigger) + '\r\n';
+  }
 
   return formattedString;
 }
@@ -47,7 +63,7 @@ function setAlarm() {
   formattedString += description ? 'DESCRIPTION:' + description + '\r\n' : '';
   formattedString += duration ? 'DURATION:' + setDuration(duration) + '\r\n' : '';
   formattedString += attach ? 'ATTACH;' + attachType + ':' + attach + '\r\n' : '';
-  formattedString += trigger ? 'TRIGGER;VALUE=DATE-TIME:' + (0, _setDate2.default)(trigger) + '\r\n' : '';
+  formattedString += trigger ? setTrigger(trigger) : '';
   formattedString += summary ? 'SUMMARY:' + summary + '\r\n' : '';
   formattedString += 'END:VALARM\r\n';
 

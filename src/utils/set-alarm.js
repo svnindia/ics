@@ -1,6 +1,8 @@
 import setDate from './set-date'
+import _ from 'lodash'
 
 function setDuration ({
+  before,
   weeks,
   days,
   hours,
@@ -8,12 +10,23 @@ function setDuration ({
   seconds
 }) {
   let formattedString = 'P'
+  if(before) formattedString='-P'
   formattedString += weeks ? `${weeks}W` : ''
   formattedString += days ? `${days}D` : ''
   formattedString += 'T'
   formattedString += hours ? `${hours}H` : ''
   formattedString += minutes ? `${minutes}M` : ''
   formattedString += seconds ? `${seconds}S` : ''
+
+  return formattedString
+}
+function setTrigger (trigger) {
+  let formattedString = ''
+  if(_.isArray(trigger)){
+    formattedString = `TRIGGER;VALUE=DATE-TIME:${setDate(trigger)}\r\n`
+  }else{
+    formattedString = `TRIGGER:${setDuration(trigger)}\r\n`
+  }
 
   return formattedString
 }
@@ -36,7 +49,7 @@ export default function setAlarm(attributes = {}) {
   formattedString += description ? `DESCRIPTION:${description}\r\n` : ''
   formattedString += duration ? `DURATION:${setDuration(duration)}\r\n` : ''
   formattedString += attach ? `ATTACH;${attachType}:${attach}\r\n` : ''
-  formattedString += trigger ? `TRIGGER;VALUE=DATE-TIME:${setDate(trigger)}\r\n` : ''
+  formattedString += trigger ? setTrigger(trigger) : ''
   formattedString += summary ? `SUMMARY:${summary}\r\n` : ''
   formattedString += 'END:VALARM\r\n'
 
