@@ -23,12 +23,13 @@ const contactSchema = Joi.object().keys({
 })
 
 const alarmSchema = Joi.object().keys({
-  action: Joi.string().regex(/audio|display|email/).required(),
+  action: Joi.string().regex(/AUDIO|DISPLAY|EMAIL/).required(),
   trigger: Joi.array().required(),
   description: Joi.string(),
   duration: durationSchema,
   repeat: Joi.number(),
-  attach: Joi.string().uri(),
+  attach: Joi.string(),
+  attachType: Joi.string(),
   summary: Joi.string(),
   attendee: contactSchema,
   'x-prop': Joi.any(),

@@ -24,6 +24,7 @@ export default function setAlarm(attributes = {}) {
     repeat,
     description,
     duration,
+    attachType,
     attach,
     trigger,
     summary
@@ -34,7 +35,7 @@ export default function setAlarm(attributes = {}) {
   formattedString += repeat ? `REPEAT:${repeat}\r\n` : ''
   formattedString += description ? `DESCRIPTION:${description}\r\n` : ''
   formattedString += duration ? `DURATION:${setDuration(duration)}\r\n` : ''
-  formattedString += attach ? `ATTACH;FMTTYPE=audio/basic:${attach}\r\n` : ''
+  formattedString += attach ? `ATTACH;${attachType}:${attach}\r\n` : ''
   formattedString += trigger ? `TRIGGER;VALUE=DATE-TIME:${setDate(trigger)}\r\n` : ''
   formattedString += summary ? `SUMMARY:${summary}\r\n` : ''
   formattedString += 'END:VALARM\r\n'

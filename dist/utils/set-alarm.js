@@ -35,6 +35,7 @@ function setAlarm() {
       repeat = attributes.repeat,
       description = attributes.description,
       duration = attributes.duration,
+      attachType = attributes.attachType,
       attach = attributes.attach,
       trigger = attributes.trigger,
       summary = attributes.summary;
@@ -45,7 +46,7 @@ function setAlarm() {
   formattedString += repeat ? 'REPEAT:' + repeat + '\r\n' : '';
   formattedString += description ? 'DESCRIPTION:' + description + '\r\n' : '';
   formattedString += duration ? 'DURATION:' + setDuration(duration) + '\r\n' : '';
-  formattedString += attach ? 'ATTACH;FMTTYPE=audio/basic:' + attach + '\r\n' : '';
+  formattedString += attach ? 'ATTACH;' + attachType + ':' + attach + '\r\n' : '';
   formattedString += trigger ? 'TRIGGER;VALUE=DATE-TIME:' + (0, _setDate2.default)(trigger) + '\r\n' : '';
   formattedString += summary ? 'SUMMARY:' + summary + '\r\n' : '';
   formattedString += 'END:VALARM\r\n';

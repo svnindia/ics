@@ -27,12 +27,13 @@ var contactSchema = _joi2.default.object().keys({
 });
 
 var alarmSchema = _joi2.default.object().keys({
-  action: _joi2.default.string().regex(/audio|display|email/).required(),
+  action: _joi2.default.string().regex(/AUDIO|DISPLAY|EMAIL/).required(),
   trigger: _joi2.default.array().required(),
   description: _joi2.default.string(),
   duration: durationSchema,
   repeat: _joi2.default.number(),
-  attach: _joi2.default.string().uri(),
+  attach: _joi2.default.string(),
+  attachType: _joi2.default.string(),
   summary: _joi2.default.string(),
   attendee: contactSchema,
   'x-prop': _joi2.default.any(),
