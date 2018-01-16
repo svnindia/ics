@@ -23,8 +23,7 @@ function setDuration(_ref) {
       minutes = _ref.minutes,
       seconds = _ref.seconds;
 
-  var formattedString = 'P';
-  if (before) formattedString = '-P';
+  var formattedString = before ? '-P' : 'P';
   formattedString += weeks ? weeks + 'W' : '';
   formattedString += days ? days + 'D' : '';
   formattedString += 'T';

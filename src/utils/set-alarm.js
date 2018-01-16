@@ -9,8 +9,7 @@ function setDuration ({
   minutes,
   seconds
 }) {
-  let formattedString = 'P'
-  if(before) formattedString='-P'
+  let formattedString = before ? '-P' : 'P'
   formattedString += weeks ? `${weeks}W` : ''
   formattedString += days ? `${days}D` : ''
   formattedString += 'T'
