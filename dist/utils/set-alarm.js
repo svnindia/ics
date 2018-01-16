@@ -15,14 +15,13 @@ var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function setDuration() {
-  var attributes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var before = attributes.before,
-      weeks = attributes.weeks,
-      days = attributes.days,
-      hours = attributes.hours,
-      minutes = attributes.minutes,
-      seconds = attributes.seconds;
+function setDuration(_ref) {
+  var before = _ref.before,
+      weeks = _ref.weeks,
+      days = _ref.days,
+      hours = _ref.hours,
+      minutes = _ref.minutes,
+      seconds = _ref.seconds;
 
   var formattedString = before ? '-P' : 'P';
   formattedString += weeks ? weeks + 'W' : '';
