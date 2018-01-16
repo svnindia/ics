@@ -88,6 +88,7 @@ describe('pipeline.formatEvent', () => {
       trigger: [1997, 2, 17, 1, 30],
       repeat: 4,
       duration: { minutes: 15 },
+      attachType:'FMTTYPE=audio/basic',
       attach: 'ftp://example.com/pub/sounds/bell-01.aud'
     }]})
 
