@@ -2,14 +2,8 @@ import setDate from './set-date'
 import _ from 'lodash'
 
 function setDuration (attributes = {}) {
-  const {
-    weeks,
-    days,
-    hours,
-    minutes,
-    seconds
-  } = attributes
-  let formattedString = attributes.before ? '-P' : 'P'
+  const {before,weeks,days,hours,minutes,seconds} = attributes
+  let formattedString = before ? '-P' : 'P'
   formattedString += weeks ? `${weeks}W` : ''
   formattedString += days ? `${days}D` : ''
   formattedString += 'T'
