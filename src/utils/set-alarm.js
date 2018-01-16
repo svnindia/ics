@@ -3,14 +3,13 @@ import _ from 'lodash'
 
 function setDuration (attributes = {}) {
   const {
-    before,
     weeks,
     days,
     hours,
     minutes,
     seconds
   } = attributes
-  let formattedString = before ? '-P' : 'P'
+  let formattedString = attributes.before ? '-P' : 'P'
   formattedString += weeks ? `${weeks}W` : ''
   formattedString += days ? `${days}D` : ''
   formattedString += 'T'

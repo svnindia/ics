@@ -17,14 +17,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function setDuration() {
   var attributes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var before = attributes.before,
-      weeks = attributes.weeks,
+  var weeks = attributes.weeks,
       days = attributes.days,
       hours = attributes.hours,
       minutes = attributes.minutes,
       seconds = attributes.seconds;
 
-  var formattedString = before ? '-P' : 'P';
+  var formattedString = attributes.before ? '-P' : 'P';
   formattedString += weeks ? weeks + 'W' : '';
   formattedString += days ? days + 'D' : '';
   formattedString += 'T';
