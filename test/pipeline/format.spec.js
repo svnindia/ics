@@ -8,10 +8,10 @@ import {
 describe('pipeline.formatEvent', () => {
   it('writes default values when no attributes passed', () => {
     const event = buildEvent()
-    const formattedEvent = formatCalendar(formatEvent(event),"adamgibbons/ics")
+    const formattedEvent = formatCalendar(formatEvent(event))
     expect(formattedEvent).to.contain('BEGIN:VCALENDAR')
     expect(formattedEvent).to.contain('VERSION:2.0')
-    expect(formattedEvent).to.contain('PRODID:adamgibbons/ics')
+    expect(formattedEvent).to.contain('PRODID')
     expect(formattedEvent).to.contain('BEGIN:VEVENT')
     expect(formattedEvent).to.contain('SUMMARY:Untitled event')
     expect(formattedEvent).to.contain('UID:')
@@ -30,8 +30,18 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('DTSTART:2017051')
   })
+  it('writes a start date-time only with [year,month,date]', () => {
+    const event = buildEvent({ start: [2017, 5, 15] })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('DTSTART:2017051')
+  })
   it('writes an end date-time', () => {
     const event = buildEvent({ end: [2017, 5, 15, 11, 0] })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('DTEND:2017051')
+  })
+  it('writes a end date-time only with [year,month,date]', () => {
+    const event = buildEvent({ end: [2017, 5, 15] })
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('DTEND:2017051')
   })

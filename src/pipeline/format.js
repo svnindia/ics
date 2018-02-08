@@ -2,6 +2,7 @@ import {
     setAlarm,
     setContact,
     setDate,
+    setDescription,
     setGeolocation,
     formatDuration
 } from '../utils'
@@ -9,7 +10,6 @@ import {
 function formatEvent (attributes = {}) {
   const {
     title,
-    productId,
     uid,
     timestamp,
     start,
@@ -34,7 +34,7 @@ function formatEvent (attributes = {}) {
     icsFormat += `DTSTAMP:${timestamp}\r\n`
     icsFormat += `DTSTART:${setDate(start, startType)}\r\n`
     icsFormat += end ? `DTEND:${setDate(end, startType)}\r\n` : ''
-    icsFormat += description ? `DESCRIPTION:${description}\r\n` : ''
+    icsFormat += description ? `DESCRIPTION:${setDescription(description)}\r\n` : ''
     icsFormat += url ? `URL:${url}\r\n` : ''
     icsFormat += geo ? `GEO:${setGeolocation(geo)}\r\n` : ''
     icsFormat += location ? `LOCATION:${location}\r\n` : ''
@@ -56,13 +56,18 @@ function formatEvent (attributes = {}) {
     icsFormat += `END:VEVENT\r\n`
     return icsFormat
 }
-function formatCalendar (icsEvents,productId) {
+function formatCalendar (icsEvents, properties) {
+  properties = properties || {}
+  const {
+    productId
+  } = properties
+
   // if(icsEvents=="") throw "Events Required"
   let icsFormat = ''
   icsFormat += 'BEGIN:VCALENDAR\r\n'
   icsFormat += 'VERSION:2.0\r\n'
   icsFormat += 'CALSCALE:GREGORIAN\r\n'
-  icsFormat += `PRODID:${productId}\r\n`
+  icsFormat += `PRODID:${productId || ''}\r\n`
   icsFormat += `METHOD:PUBLISH\r\n`
   icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
   icsFormat += icsEvents

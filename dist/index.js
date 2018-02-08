@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.generateEvent = generateEvent;
+exports.createCalendar = createCalendar;
 exports.createEvent = createEvent;
 
 var _lodash = require('lodash');
@@ -15,6 +16,7 @@ var _pipeline = require('./pipeline');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function generateEvent(attributes, cb) {
+  if (!attributes) throw Error('attributes argument is required');
   var err = null;
 
   var _validateEvent = (0, _pipeline.validateEvent)((0, _pipeline.buildEvent)(attributes)),
@@ -33,28 +35,28 @@ function generateEvent(attributes, cb) {
     // Return a node-style callback
   };return cb(err, event);
 }
-function createEvent(data, productId, cb) {
+
+function createCalendar(data, properties, cb) {
   var formatedEvents = "";
-  var events = [];
-  if (!data || !productId) Error('attributes & productId is required');
-  if (_lodash2.default.isObject(data) && !_lodash2.default.isArray(data)) {
-    events.push(data);
-  } else {
-    events = data;
-  }
+  if (!data || !properties) Error('attributes & properties is required');
+  var events = _lodash2.default.isArray(data) ? data : [data];
   try {
     _lodash2.default.forEach(events, function (attributes) {
-      if (!attributes) throw Error('attributes argument is required');
       generateEvent(attributes, function (error, val) {
         if (error) throw error;
         formatedEvents += val;
       });
     });
-    formatedEvents = (0, _pipeline.formatCalendar)(formatedEvents, productId);
+    formatedEvents = (0, _pipeline.formatCalendar)(formatedEvents, properties);
   } catch (error) {
     if (!cb) return { error: error, value: null };
     return cb(error, null);
   }
   if (!cb) return { error: null, value: formatedEvents };
   return cb(null, formatedEvents);
+}
+
+/* For support old version */
+function createEvent(data, cb) {
+  createCalendar(data, {}, cb);
 }
