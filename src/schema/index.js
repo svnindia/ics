@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-const dateTimeSchema = Joi.array().min(5).max(7).ordered(
+const dateTimeSchema = Joi.array().min(3).max(7).ordered(
   Joi.number().integer(),
   Joi.number().integer().min(1).max(12),
   Joi.number().integer().min(1).max(31),
@@ -10,6 +10,7 @@ const dateTimeSchema = Joi.array().min(5).max(7).ordered(
 )
 
 const durationSchema = Joi.object().keys({
+  before: Joi.boolean(),//option to set before alaram
   weeks: Joi.number(),
   days: Joi.number(),
   hours: Joi.number(),
@@ -30,11 +31,12 @@ const organizerSchema = Joi.object().keys({
 
 const alarmSchema = Joi.object().keys({
   action: Joi.string().regex(/audio|display|email/).required(),
-  trigger: Joi.array().required(),
+  trigger: Joi.any().required(),
   description: Joi.string(),
   duration: durationSchema,
   repeat: Joi.number(),
-  attach: Joi.string().uri(),
+  attach: Joi.string(),//To Support inbuilt iOS sounds
+  attachType: Joi.string(),
   summary: Joi.string(),
   attendee: contactSchema,
   'x-prop': Joi.any(),
@@ -59,8 +61,7 @@ const schema = Joi.object().keys({
   organizer: organizerSchema,
   attendees: Joi.array().items(contactSchema),
   alarms: Joi.array().items(alarmSchema)
-})
-.xor('end', 'duration')
+}).xor('end', 'duration')
 
 export default function validateEvent(candidate) {
   const { error, value } = Joi.validate(candidate, schema)
